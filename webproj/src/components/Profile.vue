@@ -123,8 +123,66 @@ export default {
             isManager:false,
             isCustomer:false
         }
-    }
-    
+    },
+     methods:{
+        getUserProfileData(id){
+            // let parsToken = JSON.parse(localStorage.getItem('token'));
+            // if(parsToken.role === "admin"){
+            //     dataService.getAdmin(id).then(response => {
+            //         this.profileAdmin = response.data;
+            //     })
+            // }
+            // if(parsToken.role === "coach"){
+            //     dataService.getCoach(id).then(response => {
+                    
+            //         this.profileCoach = response.data;
+            //     })
+            // }
+            // if(parsToken.role === "manager"){
+            //     dataService.getManager(id).then(response => {
+            //         this.profileManager = response.data;
+            //     })
+            // }
+            // if(parsToken.role === "customer"){
+            //     dataService.getCustomer(id).then(response => {
+            //         this.profileCustomer = response.data;
+            //     })
+            // }
+        },
+        updateUser(id){ 
+            this.$router.push(`/profile/${id}/update`);
+        },
+        
+    },
+    computed:{
+        // id() {
+        //     return this.$route.params.id; //preuzimam id usera na cijoj sam stranici za prikaz profila
+        // },
+    },
+
+    created(){
+        if(JSON.parse(localStorage.getItem('token')) == null){
+            this.$router.push(`/login`);
+        }else{
+            let parsToken = JSON.parse(localStorage.getItem('token'));
+            console.log("TOKEN PROCITAN IZ LOCALSTORAGE-a: " + localStorage.getItem('token'));
+            if(parsToken.role === "admin"){
+                this.isAdmin = true;
+            }
+            if(parsToken.role === "coach"){
+                this.isCoach = true;
+            }
+            if(parsToken.role === "manager"){
+                this.isManager = true;
+            }
+            if(parsToken.role === "customer"){
+                this.isCustomer = true;
+            }
+
+            this.getUserProfileData(parsToken.username);
+        }
+    },
+
 }
 </script>
 

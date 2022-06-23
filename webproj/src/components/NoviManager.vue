@@ -81,7 +81,7 @@
 
 
 <script>
-import dataService from '../services/DataService'
+// import dataService from '../services/DataService'
 import Datepicker from 'vuejs-datepicker'
 
 export default{
@@ -89,6 +89,10 @@ export default{
         return{
 
             selectedDate:'',
+
+            objektiBezMenadzera:[
+
+            ],
             
             
             polovi:[
@@ -119,9 +123,44 @@ export default{
             console.log("Datum posle obrade: " + this.newManager.dateOfBirth)
         }
     },
-    methods:{
-        
-        
+   methods:{
+        formatDate(){
+            Console.log("USAO U FORMATDATE")
+            this.newManager.dateOfBirth = this.newManager.dateOfBirth.substring(0,10);
+        },
+        createManager:function(){
+            console.log(JSON.stringify(this.newManager));
+            console.log(this.newManager);
+            dataService.addManager(this.newManager).then(response => {
+                if(response.data !== ''){
+                    this.messages.successResponse= "<h4>Uspesno ste kreirali menadzera.</h4>"
+                    setTimeout(() => this.messages.successResponse='', 3000);
+                }else{
+                    this.messages.errorResponse= "<h4>Vec postoji menadzer sa tim korisnickim imenom.</h4>"
+                    setTimeout(() => this.messages.errorResponse='', 3000);
+                }
+                
+                
+            }).catch(error => {
+                if(error.response.status === 500 || error.response.status === 404){
+                        this.messages.errorResponse= `<h4>We had some server errors, please try again later!</h4>`;
+                        setTimeout(() => this.messages.errorResponse='', 5000);
+                }
+            })
+        },
+        addChoosenGender:function(pickedGender){
+            this.newManager.gender = pickedGender.naziv;
+        },
+        getObjectsWithNoManagers:function(){
+            dataService.getAllObjectsWithNoManager().then(response => {
+                this.objektiBezMenadzera.response.data;
+            });
+        },
+        getUsernames:function(){
+            dataService.getAllManagers().then(response => {
+                this.allManagers = response.data;
+            })
+        },
     },
     components:{
         vuejsDatepicker:Datepicker,

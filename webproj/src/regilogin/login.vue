@@ -46,6 +46,7 @@
 
 // import {bus} from '../main'
 import axios from "axios";
+import dataService from '../services/DataService'
 export default {
     name: 'Login',
     data () {
@@ -60,8 +61,59 @@ export default {
         generatedCode:'',
         errorMessage:'',
       }
+    },
+    methods: {
+      submition: function () {
+        console.log(this.username);
+        console.log(this.password);
+        dataService.sendlogin({username:this.username,password:this.password}).then(response => {
+            if(response.status === 200){
+              console.log("Sa beka stiglo: " + response.data);
+              if(response.data !== ''){
+                  console.log("Status 200");
+                  this.token = response.data;
+                  // axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.username;
+                  console.log("Token koji se smesta u localstorage: " + JSON.stringify(this.token))
+                  console.log(this.token.role)
+                  if(this.token.role !== null){
+                    if(this.token.role == "banovan"){
+                      this.errorMessage = `<h4>Ovaj korisnicki nalog je suspendovan zbog krsenja pravila poslovanja.</h4>`;
+                      setTimeout(()=>this.errorMessage='', 5000);
+                    }else{
+                      localStorage.setItem('token', JSON.stringify(this.token))
+                      bus.$emit('loggedIn',true);
+                      this.$router.push('/home'); 
+                    }
+                      
+                  }else{
+                    this.errorMessage = `<h4>Username ili password su pogresno uneti!</h4>`;
+                    setTimeout(()=>this.errorMessage='',3000);
+                  }
+                   
+              }
+                       
+            }           
+          }).catch(error => {
+            if(error.response.status === 401  && error.response.data ==='Bad credentials!'){
+            this.errorMessage = `<h4>Username ili password su pogresno uneti!</h4>`;
+            
+            setTimeout(()=>this.errorMessage='',3000);
+          }
+          });
+        },
+    },
+    computed:{
+        
+    },
+    created(){
+      if(JSON.parse(localStorage.getItem('token')) != null){
+            this.$router.push(`/`);
+      }else{
+            
+      }
     }
-}
+  }
+</script>
 
 </script>
 

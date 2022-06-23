@@ -85,6 +85,7 @@
 
 <script>
 import Datepicker from 'vuejs-datepicker'
+import dataService from '../services/DataService'
 
 export default {
     name:'customer-new',
@@ -121,10 +122,51 @@ export default {
         }
     },
     methods:{
-       
-     },
+        formatDate(){
+            Console.log("USAO U FORMATDATE")
+            this.newCustomer.dateOfBirth = this.newCustomer.dateOfBirth.substring(4,15);
+        },
+        createCustomer:function(){
+            console.log(JSON.stringify(this.newCustomer));
+            console.log("AAAA")
+            console.log(this.newCustomer);
+            dataService.addCustomer(this.newCustomer).then(response => {
+                console.log("Stigao odgovor sa beka: " + response.data);
+                console.log("Stigao odgovor sa beka: " + response.data.stringify);
+                if(!response.data){
+                    this.messages.errorResponse= `<h4>Korisnik sa tim korisnickim imenom vec postoji. Izaberite drugo korisnicko ime.</h4>`;
+                    setTimeout(()=>this.messages.errorResponse='',3000);
+                }else{
+                    this.messages.successResponse=`<h4>Uspesno ste se registrovali. Bicete prebaceni na login stranicu. </h4>`
+                    setTimeout(()=>this.messages.successResponse='',3000);
+                    setTimeout(()=>this.$router.push('/login'), 3000);
+                }
+            });
+        },
+        addChoosenGender:function(pickedGender){
+            this.newCustomer.gender = pickedGender.naziv;
+        },
+        // addCustomer(){
+        //     dataService.addCustomer(this.newCustomer).then(response =>{
+        //         console.log("Kreiran je korisnik: " + response.data.username);
+        //         if(!response.data){
+        //             errorResponse
+        //         }
+        //     })
+        // }
+        
+        
+        
+    },
     components:{
         vuejsDatepicker:Datepicker,
+    },
+     created(){
+        if(JSON.parse(localStorage.getItem('token')) != null){
+            this.$router.push(`/login`);
+        }else{
+            
+        }
     }
     
 }

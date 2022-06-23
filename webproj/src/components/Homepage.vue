@@ -49,6 +49,58 @@
                         </div>
                     </div>
 
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-0 shadow">
+                            <router-link style='text-decoration: none;color:#35424a;' to="/newCoach" class="nav-link"
+                                exact>
+                                <img height="223" src="../assets/coach.jpg" class="card-img-top" alt="...">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title mb-0">Dodavanje novog trenera</h5>
+                                    
+                                </div>
+                            </router-link>
+                        </div>
+                    </div>
+
+                     <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-0 shadow">
+                            <router-link style='text-decoration: none;color:#35424a;' to="/noviTrening" class="nav-link"
+                                exact>
+                                <img height="223" src="../assets/coach.jpg" class="card-img-top" alt="...">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title mb-0">Dodavanje novog treninga</h5>
+                                    
+                                </div>
+                            </router-link>
+                        </div>
+                    </div>
+
+                     <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-0 shadow">
+                            <router-link style='text-decoration: none;color:#35424a;' to="/moderation" class="nav-link"
+                                exact>
+                                <img height="223" src="../assets/comment1.png" class="card-img-top" alt="...">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title mb-0">Moderacija komentara</h5>
+                                    
+                                </div>
+                            </router-link>
+                        </div>
+                    </div>
+
+                     <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-0 shadow">
+                            <router-link style='text-decoration: none;color:#35424a;' to="/treninziCustomer" class="nav-link"
+                                exact>
+                                <img src="../assets/comment1.png" class="card-img-top" alt="...">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title mb-0">Pregledajte svoje treninge</h5>
+                                    
+                                </div>
+                            </router-link>
+                        </div>
+                    </div>
+
 
 
 

@@ -7,6 +7,11 @@ import Profile from './components/Profile'
 import ProfileUpdate from './components/ProfileUpdate'
 import NoviManager from './components/NoviManager'
 import NoviSportskiObjekat from './components/NoviSportskiObjekat'
+import NoviTrener from './components/NoviTrener'
+import ModeracijaKomentara from './components/ModeracijaKomentara'
+import CommentNew from './components/CommentNew'
+import NoviTrening from './components/NoviTrening'
+import SportskiObjekatDetalji from './components/SportskiObjekatDetalji'
 
 export default[
     {
@@ -53,5 +58,30 @@ export default[
         path:'/newObject',
         name:'NoviSportskiObjekat',
         component:NoviSportskiObjekat
+    },
+    {
+        path:'/newCoach',
+        name:'NoviTrener',
+        component:NoviTrener
+    },
+    {
+        path:'/moderation',
+        name:'ModeracijaKomentara',
+        component:ModeracijaKomentara
+    },
+    {   
+        path:'/commentNew',
+        name:'CommentNew',
+        component:CommentNew
+    },
+    {   
+        path:'/noviTrening',
+        name:'NoviTrening',
+        component:NoviTrening
+    },
+    {   
+        path:'/object/:id/details',
+        name:'SportskiObjekatDetalji',
+        component:SportskiObjekatDetalji
     }
 ]
