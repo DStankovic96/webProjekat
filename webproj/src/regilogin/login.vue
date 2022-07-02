@@ -44,7 +44,7 @@
 
 <script>
 
-// import {bus} from '../main'
+import {bus} from '../main'
 import axios from "axios";
 import dataService from '../services/DataService'
 export default {
@@ -66,7 +66,9 @@ export default {
       submition: function () {
         console.log(this.username);
         console.log(this.password);
-        dataService.sendlogin({username:this.username,password:this.password}).then(response => {
+        axios.post(`http://localhost:8080/webProj/rest/login/${this.username}`, {
+          password:this.password,
+         }).then(response => {
             if(response.status === 200){
               console.log("Sa beka stiglo: " + response.data);
               if(response.data !== ''){
@@ -74,18 +76,21 @@ export default {
                   this.token = response.data;
                   // axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.username;
                   console.log("Token koji se smesta u localstorage: " + JSON.stringify(this.token))
+                  console.log("Token koji se smesta u localstorage: " + this.token)
                   console.log(this.token.role)
                   if(this.token.role !== null){
-                    if(this.token.role == "banovan"){
-                      this.errorMessage = `<h4>Ovaj korisnicki nalog je suspendovan zbog krsenja pravila poslovanja.</h4>`;
-                      setTimeout(()=>this.errorMessage='', 5000);
-                    }else{
+                   
+                    
                       localStorage.setItem('token', JSON.stringify(this.token))
+                        console.log("TEST1: " )
                       bus.$emit('loggedIn',true);
+                       console.log("TEST2: " )
                       this.$router.push('/home'); 
-                    }
+                        console.log("TEST3: " )
+                   
                       
                   }else{
+                     console.log("TEST4: " )
                     this.errorMessage = `<h4>Username ili password su pogresno uneti!</h4>`;
                     setTimeout(()=>this.errorMessage='',3000);
                   }
@@ -94,6 +99,7 @@ export default {
                        
             }           
           }).catch(error => {
+             console.log("TEST5: " )
             if(error.response.status === 401  && error.response.data ==='Bad credentials!'){
             this.errorMessage = `<h4>Username ili password su pogresno uneti!</h4>`;
             

@@ -311,6 +311,14 @@ export default {
     components:{
         vuejsDatepicker:Datepicker
     },
+     created(){
+        if(JSON.parse(localStorage.getItem('token')) == null){
+            this.$router.push(`/login`);
+        }else{
+            this.getListOfManagers();
+        }
+        
+    },
     methods:{
         createManager:function(){
             console.log('pokusaj kreiranja novog menadzera');

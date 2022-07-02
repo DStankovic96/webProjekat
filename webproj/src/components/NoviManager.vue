@@ -29,7 +29,15 @@
                             <label class='label'>Prezime menadzera:</label>
                         </td>
                         <td>
-                            <input type="text" placeholder="Unestite ime menadzera..."  v-model="newManager.lastname">
+                            <input type="text" placeholder="Unestite prezime menadzera..."  v-model="newManager.lastname">
+                        </td>
+                    </tr>
+                     <tr>
+                        <td>
+                           <label class='label'>Lozinka:</label>
+                        </td>
+                        <td>
+                            <input type="text" placeholder="Unesite lozinku..." v-model="newManager.password">
                         </td>
                     </tr>
                     <tr>
@@ -81,7 +89,7 @@
 
 
 <script>
-// import dataService from '../services/DataService'
+import dataService from '../services/DataService'
 import Datepicker from 'vuejs-datepicker'
 
 export default{
@@ -103,7 +111,7 @@ export default{
                 username:'',
                 name:'',
                 lastname:'',
-                password:'1234',
+                password:'',
                 gender:'',
                 dateOfBirth:'',
                 objekat:''

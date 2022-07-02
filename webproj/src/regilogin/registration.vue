@@ -25,7 +25,7 @@
                             Ime:
                         </td>
                         <td>
-                            <input type="text" placeholder="Unesite korisnicko ime..." v-model="newCustomer.name">
+                            <input type="text" placeholder="Unesite ime..." v-model="newCustomer.name">
                         </td>
                     </tr>
                     <tr>
@@ -33,7 +33,7 @@
                             Prezime:
                         </td>
                         <td>
-                            <input type="text" placeholder="Unesite korisnicko ime..." v-model="newCustomer.lastname">
+                            <input type="text" placeholder="Unesite prezime..." v-model="newCustomer.lastname">
                         </td>
                     </tr>
                     <tr>
@@ -41,7 +41,7 @@
                             Lozinka:
                         </td>
                         <td>
-                            <input type="text" placeholder="Unesite korisnicko ime..." v-model="newCustomer.password">
+                            <input type="text" placeholder="Unesite lozinku..." v-model="newCustomer.password">
                         </td>
                     </tr>
                      <tr>

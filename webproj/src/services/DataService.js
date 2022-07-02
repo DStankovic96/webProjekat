@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8080/webback/rest";
+const API_URL = "http://localhost:8080/webProj/rest";
 
 class DataService{
     
@@ -23,9 +23,9 @@ class DataService{
 
 
     // login i registracija
-    sendLogin(form){
-        return axios.post(`${API_URL}/login/`, form);
-    }
+    // sendLogin(form){
+    //     return axios.post(`${API_URL}/login/`, form);
+    // }
     addCustomer(customer){
         return axios.post(`${API_URL}/customers/`, customer);
     }
@@ -47,6 +47,7 @@ class DataService{
     addManager(manager){
         console.log("DataService:addManager");
         return axios.post(`${API_URL}/managers/`, manager);
+        console.log("TESTMANAGER");
     }
     getFreeManagers(){
         return axios.get(`${API_URL}/managers/free/`);
@@ -74,12 +75,8 @@ class DataService{
     // updateAdmin(admin){
     //     return axios.put(`${API_URL}/administrators`, admin);
     // }
-    // suspendUser(username){
-    //     return axios.get(`${API_URL}/bannedUsers/ban/${username}`)
-    // }
-    // unsuspendUser(username){
-    //     return axios.get(`${API_URL}/bannedUsers/unban/${username}`)
-    // }
+    
+    
 
    
 
