@@ -33,13 +33,31 @@ class DataService{
 
     // sportski objekat
     addObject(object){
+        console.log("ADOBJTEST1");
         return axios.post(`${API_URL}/objects/`, object);
+        console.log("ADOBJTEST2");
+    }
+    addTrening(id, treningg){
+        return axios.put(`${API_URL}/objects/${id}`, treningg)
+    }
+    getAllObjects(){
+        return axios.get(`${API_URL}/objects/`)
     }
 
 
     //trener
+    addTrener(trener){
+        console.log("DataService:addTrener");
+        return axios.post(`${API_URL}/coaches/`, trener);
+    }
     getListaTrenera(){
         return axios.get(`${API_URL}/coaches/`);
+    }
+    getTrener(id){
+        return axios.get(`${API_URL}/treneri/${id}`);
+    }
+    updateTrener(coach){
+        return axios.put(`${API_URL}/coaches/`, coach);
     }
 
 
@@ -55,12 +73,12 @@ class DataService{
     getAllManagers(){
         return axios.get(`${API_URL}/managers/`);
     }
-    // getManager(id){
-    //     return axios.get(`${API_URL}/managers/${id}`);
-    // }
-    // updateManager(manager){
-    //     return axios.put(`${API_URL}/managers/`, manager);
-    // }
+    getManager(id){
+        return axios.get(`${API_URL}/managers/${id}`);
+    }
+    updateManager(manager){
+        return axios.put(`${API_URL}/managers/`, manager);
+    }
     updateManagerObjekat(manager){
         return axios.put(`${API_URL}/managers/dodelaObjekta`, manager);
     }
@@ -69,15 +87,19 @@ class DataService{
 
 
     //admin
-    // getAdmin(id){
-    //     return axios.get(`${API_URL}/administrators/${id}`);
-    // }
-    // updateAdmin(admin){
-    //     return axios.put(`${API_URL}/administrators`, admin);
-    // }
+    getAdmin(id){
+        console.log("testadminn1");
+        return axios.get(`${API_URL}/administrators/${id}`);
+        console.log("testadminn2");
+    }
+    updateAdmin(admin){
+        return axios.put(`${API_URL}/administrators`, admin);
+    }
     
     
-
+    updateCustomer(customer){
+        return axios.put(`${API_URL}/customers/`, customer);
+    }
    
 
 }

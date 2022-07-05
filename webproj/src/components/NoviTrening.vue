@@ -22,7 +22,7 @@
                     </td> 
                     <td>
                         <span >
-                            <select style="width:100%;padding:5px;" v-model="newTrening.typeOfTrening">
+                            <select style="width:100%;padding:5px;" v-model="newTrening.tipTreninga">
                                 <option disabled value="">Odabir tipa</option>
                                 <option v-bind:key="tipTemp.tipp" v-for="tipTemp in tipovi">{{tipTemp.tipp}}</option>
                             </select>
@@ -102,7 +102,7 @@
 </template>
 
 <script>
-// import dataService from '../services/DataService'
+import dataService from '../services/DataService'
 
 export default {
     data(){
@@ -121,7 +121,7 @@ export default {
             slike:[],
             newTrening:{
                 naziv:'',
-                typeOfTrening:'',
+                tipTreninga:'',
                 trener: '',
                 trajanje:'',
                 opis:'',               

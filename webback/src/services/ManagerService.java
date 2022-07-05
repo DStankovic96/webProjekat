@@ -14,6 +14,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import dao.ManagerDAO;
+import dtos.UpdateManagerDTO;
 //import dtos.UpdateManagerDTO;
 import model.Manager;
 
@@ -62,25 +63,26 @@ public class ManagerService {
 	@Path("/free/")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Manager> getFreeManagers(){
+		System.out.println("PROVERA FREE MANAGERS");
 		ManagerDAO dao = (ManagerDAO)ctx.getAttribute("managerDAO");
 		return dao.findFreeManagers();
 	}
-//	@PUT
-//	@Path("/")
-//	@Produces(MediaType.APPLICATION_JSON)
-//	public Manager updateManager(UpdateManagerDTO manager) {
-//		ManagerDAO dao = (ManagerDAO)ctx.getAttribute("managerDAO");
-//		if(dao.checkPassword(manager.getOldPassword(), manager.getUsername()) == true) {
-////			Manager m = new Manager(manager.isObrisan(), manager.getUsername(), manager.getPassword(), manager.getName(), manager.getLastname(), manager.getGender(), manager.getDateOfBirth(), manager.getRestaurant());
-//			Manager c = new Manager();
-//			c.setDateOfBirth(manager.getDateOfBirth()); c.setGender(manager.getGender()); c.setLastname(manager.getLastname()); c.setName(manager.getName());
-//			c.setPassword(manager.getPassword()); c.setUsername(manager.getUsername());
-//			
-//			
-//			return dao.updateManager(c);
-//		}
-//		return null;
-//	}
+	@PUT
+	@Path("/")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Manager updateManager(UpdateManagerDTO manager) {
+		ManagerDAO dao = (ManagerDAO)ctx.getAttribute("managerDAO");
+		if(dao.checkPassword(manager.getOldPassword(), manager.getUsername()) == true) {
+//			Manager m = new Manager(manager.isObrisan(), manager.getUsername(), manager.getPassword(), manager.getName(), manager.getLastname(), manager.getGender(), manager.getDateOfBirth(), manager.getRestaurant());
+			Manager c = new Manager();
+			c.setDateOfBirth(manager.getDateOfBirth()); c.setGender(manager.getGender()); c.setLastname(manager.getLastname()); c.setName(manager.getName());
+			c.setPassword(manager.getPassword()); c.setUsername(manager.getUsername());
+			
+			
+			return dao.updateManager(c);
+		}
+		return null;
+	}
 	
 	@PUT
 	@Path("/dodelaObjekta")

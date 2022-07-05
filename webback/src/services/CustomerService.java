@@ -12,6 +12,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import dao.CustomerDAO;
+import dtos.UpdateCustomerDTO;
 //import dtos.UpdateCustomerDTO;
 import model.Customer;
 
@@ -63,18 +64,18 @@ public class CustomerService {
 		CustomerDAO dao = (CustomerDAO)ctx.getAttribute("customerDAO");
 		return dao.findCustomer(username);
 	}
-//	@PUT
-//	@Path("/")
-//	@Produces(MediaType.APPLICATION_JSON)
-//	public Customer updateCustomer(UpdateCustomerDTO customer) {
-//		CustomerDAO dao = (CustomerDAO)ctx.getAttribute("customerDAO");
-//		if(dao.checkPassword(customer.getOldPassword(), customer.getUsername()) == true) {
-//			Customer c = new Customer();
-//			c.setDateOfBirth(customer.getDateOfBirth()); c.setGender(customer.getGender()); c.setLastname(customer.getLastname()); c.setName(customer.getName());
-//			c.setPassword(customer.getPassword()); c.setUsername(customer.getUsername());
-//			return dao.updateCustomer(c);
-//		}
-//		return null;
-//	}
+	@PUT
+	@Path("/")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Customer updateCustomer(UpdateCustomerDTO customer) {
+		CustomerDAO dao = (CustomerDAO)ctx.getAttribute("customerDAO");
+		if(dao.checkPassword(customer.getOldPassword(), customer.getUsername()) == true) {
+			Customer c = new Customer();
+			c.setDateOfBirth(customer.getDateOfBirth()); c.setGender(customer.getGender()); c.setLastname(customer.getLastname()); c.setName(customer.getName());
+			c.setPassword(customer.getPassword()); c.setUsername(customer.getUsername());
+			return dao.updateCustomer(c);
+		}
+		return null;
+	}
 
 }

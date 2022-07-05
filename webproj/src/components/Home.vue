@@ -4,6 +4,7 @@
                     <div class="container">
                         <br>
                         <router-link to='/home' class="nav-link" exact> <img src="../assets/sportskicentar.jpg" width="1600" height="600"> </router-link>
+                        <router-link to='/clanarine' class="nav-link" exact> <button type='submit' class="btn button_12" >Pogledajte clanarine</button> </router-link>
                     </div>
                 </section>
                 <section id="newsletter">
@@ -11,6 +12,7 @@
                         <h3 style="color: #35424a"> Trenirajte u najboljim teretanama, fitnes studijima
                             i sportskim centrima širom Srbije!
                         </h3>
+                        
                         <form id="desno">
                             <router-link to='/registration' class="nav-link" exact> <button type='submit' class="btn button_1" id='btnRegistration'>Registracija</button> </router-link>
                         </form>
@@ -81,6 +83,26 @@ body{
     border:none;
     padding: 0 20px;
     font-size: 20px;
+}
+.button_12 {
+  position: absolute;
+  top: 20%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  background-color: #35424a;
+  color: white;
+  font-size: 16px;
+  padding: 12px 24px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  text-align: center;
+}
+.button_12:hover{
+    background-color:#3aa708;
+    color:#fff;
+    font-weight: bold;
 }
 
 .dark{

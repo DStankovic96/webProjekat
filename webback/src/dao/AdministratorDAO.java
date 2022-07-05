@@ -32,16 +32,7 @@ public class AdministratorDAO {
 		public void loadAdministrators(String contextPath){
 			BufferedReader in = null;
 			try {
-			/*	Gson gson = new Gson();
-				File file = new File(contextPath + "administrators.json");
-				in = new BufferedReader(new FileReader(file));
-				ArrayList<Administrator> listOfAdministrators = new ArrayList<Administrator>();
-				String line;
-				while((line = in.readLine()) != null) {
-					Administrator a = gson.fromJson(line, Administrator.class);
-					listOfAdministrators.add(a);
-					//dodajem i u mapu za svaki slucaj ako mapa bude zgodnija
-					administrators.put(a.getUsername(), a);*/
+		
 				System.out.println("test ispis iz administratorDAO: " + contextPath);
 				JsonReader reader = new JsonReader(new FileReader(contextPath + "administrators.json"));
 				Gson gson = new Gson();

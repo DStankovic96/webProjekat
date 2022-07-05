@@ -65,7 +65,7 @@
 
 <script>
 
-
+import dataService from '../services/DataService'
 export default {
 
     data(){
@@ -126,28 +126,28 @@ export default {
     },
      methods:{
         getUserProfileData(id){
-            // let parsToken = JSON.parse(localStorage.getItem('token'));
-            // if(parsToken.role === "admin"){
-            //     dataService.getAdmin(id).then(response => {
-            //         this.profileAdmin = response.data;
-            //     })
-            // }
-            // if(parsToken.role === "coach"){
-            //     dataService.getCoach(id).then(response => {
+            let parsToken = JSON.parse(localStorage.getItem('token'));
+            if(parsToken.role === "admin"){
+                dataService.getAdmin(id).then(response => {
+                    this.profileAdmin = response.data;
+                })
+            }
+            if(parsToken.role === "coach"){
+                dataService.getTrener(id).then(response => {
                     
-            //         this.profileCoach = response.data;
-            //     })
-            // }
-            // if(parsToken.role === "manager"){
-            //     dataService.getManager(id).then(response => {
-            //         this.profileManager = response.data;
-            //     })
-            // }
-            // if(parsToken.role === "customer"){
-            //     dataService.getCustomer(id).then(response => {
-            //         this.profileCustomer = response.data;
-            //     })
-            // }
+                    this.profileCoach = response.data;
+                })
+            }
+            if(parsToken.role === "manager"){
+                dataService.getManager(id).then(response => {
+                    this.profileManager = response.data;
+                })
+            }
+            if(parsToken.role === "customer"){
+                dataService.getCustomer(id).then(response => {
+                    this.profileCustomer = response.data;
+                })
+            }
         },
         updateUser(id){ 
             this.$router.push(`/profile/${id}/update`);

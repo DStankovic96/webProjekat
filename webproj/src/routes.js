@@ -11,7 +11,9 @@ import NoviTrener from './components/NoviTrener'
 import ModeracijaKomentara from './components/ModeracijaKomentara'
 import CommentNew from './components/CommentNew'
 import NoviTrening from './components/NoviTrening'
+import Clanarina from './components/Clanarina'
 import SportskiObjekatDetalji from './components/SportskiObjekatDetalji'
+import PretragaObjekata from './components/PretragaObjekata'
 
 export default[
     {
@@ -35,6 +37,11 @@ export default[
         component:About
     },
     {
+        path:'/clanarine',
+        name:'Clanarina',
+        component:Clanarina
+    },
+    {
         path:'/profile',
         name:'Profile',
         component:Profile
@@ -45,7 +52,7 @@ export default[
         component:Homepage
     },
     {
-        path:'/profileUpdate',
+        path:'/profile/:id/update',
         name:'ProfileUpdate',
         component:ProfileUpdate
     },
@@ -83,5 +90,10 @@ export default[
         path:'/object/:id/details',
         name:'SportskiObjekatDetalji',
         component:SportskiObjekatDetalji
+    },
+    {   
+        path:'/searchObjects',
+        name:'PretragaObjekata',
+        component:PretragaObjekata
     }
 ]

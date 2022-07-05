@@ -222,7 +222,7 @@ export default {
                 password:'1234',
                 gender:'',
                 dateOfBirth:'',
-                object:''
+                objekat:''
             },
             polovi:[
                 {naziv:'Musko'},
@@ -250,7 +250,7 @@ export default {
             newObject:{
                 name:'',
                 type:'',
-                menuItems:[],
+                treningList:[],
                 opened:true,
                 lokacija:{
 
@@ -413,7 +413,7 @@ export default {
                 this.newObject.lokacija = this.adresa;
 
                 //postavljenje polja object na vrednost polja name objekta newObject(u oba slucaja, i kada ima slobodnih i kada kreira novi)
-                this.newManager.object = this.newObject.name;
+                this.newManager.objekat = this.newObject.name;
                 console.log("NA BEK SE SALJE OBJEKAT newObject: " + JSON.stringify(this.newObject));
                 console.log("Na server se salje objekat newManager: " + JSON.stringify(this.newManager));
                 dataService.addObject(this.newObject).then(response =>{
@@ -436,7 +436,7 @@ export default {
                         console.log(error.response);
                     });//ako je izabran neki od postojecih menadzera onda se vrsi izmena u bazi
                 }else if(this.kreiranNoviMenadzer == false){
-                    dataService.updateManagerObject(this.newManager).then(response => {
+                    dataService.updateManagerObjekat(this.newManager).then(response => {
                         console.log(response.data)
                         console.log("Izmenjen postojeci menadzer");
                         // alert("Uspesno ste dodali objekat.");
