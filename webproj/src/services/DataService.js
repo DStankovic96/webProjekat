@@ -50,11 +50,12 @@ class DataService{
         console.log("DataService:addTrener");
         return axios.post(`${API_URL}/coaches/`, trener);
     }
+    getTrener(name){
+        console.log("DataService:getTrener");
+        return axios.get(`${API_URL}/coaches/${name}`);
+    }
     getListaTrenera(){
         return axios.get(`${API_URL}/coaches/`);
-    }
-    getTrener(id){
-        return axios.get(`${API_URL}/treneri/${id}`);
     }
     updateTrener(coach){
         return axios.put(`${API_URL}/coaches/`, coach);
@@ -82,6 +83,12 @@ class DataService{
     updateManagerObjekat(manager){
         return axios.put(`${API_URL}/managers/dodelaObjekta`, manager);
     }
+    getObjectByManager(manager){
+        return axios.get(`${API_URL}/objects/bymanager/${manager}`);
+    }
+    getObject(id){
+        return axios.get(`${API_URL}/objects/${id}`);
+    }
 
     //trening
 
@@ -96,9 +103,23 @@ class DataService{
         return axios.put(`${API_URL}/administrators`, admin);
     }
     
-    
+    //customer
     updateCustomer(customer){
         return axios.put(`${API_URL}/customers/`, customer);
+    }
+    getCustomer(username){
+        
+        return axios.get(`${API_URL}/customers/${username}`);
+    }
+    getAllClanarineKupac(username){
+        console.log("uslo u dobijanje clanarina kupca");
+        return axios.get(`${API_URL}/clanarine/${username}`);
+        console.log("izaslo u dobijanje clanarina kupca");
+    }
+
+    posaljiClanarinu1(username,clanarineKupac)
+    {
+        return axios.post(`${API_URL}/clanarine/${username}`, clanarineKupac);
     }
    
 

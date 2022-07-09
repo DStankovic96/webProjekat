@@ -13,23 +13,7 @@
                                     <slide :index="0">
                                         <img  :src="loadObject.logo">
                                     </slide>
-                                    <!-- <slide :index="0">
-                                        <img  src="/src/assets/dadada.png">
-                                    </slide>
-                                    <slide :index="1">
-                                        <img  src="/src/assets/hrana.jpg">
-                                    </slide>
-                                    <slide :index="2">
-                                        <img  src="/src/assets/restau.png">
-                                    </slide>
-                                    <slide :index="3">
-                                        <img  src="/src/assets/delivery.png">
-                                    </slide> -->
-                                    <!-- <slide v-for="(slide, i) in loadRestaurant.logo" :index="i" :key="i">
-                                        <template slot-scope="{ index, isCurrent, leftIndex, rightIndex }">
-                                            <img :data-index="index" :class="{ current: isCurrent, onLeft: (leftIndex >= 0), onRight: (rightIndex >= 0) }" :src="slide.src">
-                                        </template>
-                                    </slide> -->
+                                 
                                 </carousel-3d>
                             </div>
                             <div  class="text-center">
@@ -60,13 +44,13 @@
                         </td>
                         <td>
                             <label>{{loadObject.manager}}</label>
-                            <button class="btn btn-primary" @click="managerProfile()">Profil</button>
+                            <!-- <button class="btn btn-primary" @click="managerProfile()">Profil</button> -->
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <label>Ocena objekta({{ocenaObjekta}}):</label>
-                            <!-- <button class="btn btn-primary" style="background:white">{{ocenaRestorana}}</button> -->
+                            <label>Ocena objekta({{ocenaObjekta.manager}}):</label>
+                            
                         </td>
                         <td>
                             <starrating v-model="loadObject.ocena" :star-size="30" read-only></starrating>
@@ -93,13 +77,13 @@
                     <div>
                     <!-- if we are 3 cards wide start a new row -->
                         <div class="row">
-                            <div class="col-md-6" v-bind:key="index" v-for="(tempTrening, index) in loadObject.treningItems">
+                            <div class="col-md-6" v-bind:key="index" v-for="(tempTrening, index) in loadObject.treningList">
                                 <div style="margin-bottom:30px;" class="card h-100">
-                                    <img class="card-img-top" style="width:100%;height:50%;" :src="tempArtikal.slika" alt="card image collar">
+                                    <img class="card-img-top" style="width:100%;height:50%;" :src="tempTrening.slika" alt="card image collar">
                                     <div class="card-body">
                                         <h5 class="card-title">Trening: {{tempTrening.naziv}}</h5>
-                                        <p class="card-text">Cena: {{tempTrening.trener}}</p>
-                                        <input id="kolicina" v-model="inputValues[index]" style="width:50%" type="number" ref="inputValue" placeholder="Kolicina..." min="0">
+                                        <p class="card-text">Tip treninga: {{tempTrening.tipTreninga}}</p>
+                                        <!-- <button v-on:click="Treniraj(tempTrening, index)" class="btn btn-primary">Dodaj</button> -->
                                         <!-- <button v-show="isOwner" v-on:click="removeEntity(tempVikendica.id)" class="btn btn-danger">Ukloni</button> -->
                                     </div>
                                 </div>
@@ -121,34 +105,25 @@ import {Carousel3d, Slide} from 'vue-carousel-3d'
 export default {
     mounted(){
         
-        // this.setLocationLatLng();
-         setTimeout(() => this.getLocationFromAddress(), 1500);
-        // this.getLocationFromAddress();
     },
     
     data(){
         return{
 
            
-            //mapa varijable
-            // center: { 
-            //     lat: 39.7837304, 
-            //     lng: -100.4458825 
-            // },
-            // lokacije:[],
+           
 
             loadObject:{
                 name:'',
                 type:'',
-                treningItems:[],
+                treningList:[],
                 opened:true,
                 lokacija:{
                     ulica:'',
                     broj:'',
                     mesto:'',
                     drzava:'',
-                    // xCoord:0,
-                    // yCoord: 0,
+                  
                 },
                 logo:'',
                 comments:[],
@@ -180,13 +155,13 @@ export default {
             this.$router.push(`/profile/${this.manager}`)
         },
         showComments(){
-            this.$router.push(`/commentNew/${this.loadRestaurant.name}`);
+            this.$router.push(`/commentNew/${this.loadObject.name}`);
         },
         getObject(){
-            dataService.getRestaurant(this.id).then(response => {
-                this.loadRestaurant = response.data;
-                console.log("Naziv pronadjenog restorana je: " + this.loadRestaurant.name);
-                // console.log("string slike: " + this.loadRestaurant.logo)
+            dataService.getObject(this.id).then(response => {
+                this.loadObject = response.data;
+                console.log("Naziv pronadjenog objekta je: " + this.loadObject.name);
+                
             }).catch(error => {
                 console.log(error.response);
             })
@@ -195,11 +170,11 @@ export default {
     },
     computed:{
         
-        ocenaRestorana(){
-            let tempSize = this.loadRestaurant.comments.length;
+        ocenaObjekta(){
+            let tempSize = this.loadObject.comments.length;
             let tempOcena = 0
             for(let i = 0; i < tempSize; i++){
-                tempOcena += this.loadRestaurant.comments[i].ocena;
+                tempOcena += this.loadObject.comments[i].ocena;
             }
             let ocena = tempOcena/tempSize;
             return  parseInt(ocena);
@@ -210,7 +185,7 @@ export default {
         getOtherImgs: function () {
             console.log("getOtherImgs: ");
             //Prva slika mora da se manuelno postavi, a ostale se dodaju preko v-for:
-            let imgs = this.loadRestaurant.images.slice(1);
+            let imgs = this.loadObject.images.slice(1);
             //Ako ima samo jednu sliku onda se sklanjaju strelice < > za kretanje kroz slike.
             if (imgs.length === 0) {
                 console.log("imgs.lenght je = 0 ");
@@ -224,12 +199,11 @@ export default {
     },
     },
     created(){
-        // if(JSON.parse(localStorage.getItem('token')) == null){
-        //     this.$router.push(`/login`);
-        // }else{
-        //     this.getRestaurant();
-        // }
-        this.getObject();
+        if(JSON.parse(localStorage.getItem('token')) == null){
+            this.$router.push(`/login`);
+        }else{
+            this.getObject();
+        }
     },
     components:{
         starrating : starRating,

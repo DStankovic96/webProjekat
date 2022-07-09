@@ -11,6 +11,7 @@ public class Customer extends User {
 	private String typeOfCustomer;
 	private ArrayList<Komentar> commentsMade = new ArrayList<Komentar>();
 	private ArrayList<IstorijaTreninga> istorijaTreninga = new ArrayList<IstorijaTreninga>();
+	private ArrayList<Clanarina> sveClanarine = new ArrayList<Clanarina>();
 	
 	public Customer() {
 		super();
@@ -18,7 +19,7 @@ public class Customer extends User {
 
 	public Customer(boolean obrisan, String username, String password, String name, String lastname, String gender,
 			String dateOfBirth, int numberOfPoints, ArrayList<Objekat> poseceniObjekti, String typeOfCustomer, ArrayList<Komentar> commentsMade,
-			ArrayList<IstorijaTreninga> istorijaTreninga) {
+			ArrayList<IstorijaTreninga> istorijaTreninga,  ArrayList<Clanarina> sveClanarine) {
 		super(obrisan, username, password, name, lastname, gender, dateOfBirth);
 		// TODO Auto-generated constructor stub
 		
@@ -27,6 +28,7 @@ public class Customer extends User {
 		this.typeOfCustomer = typeOfCustomer;
 		this.commentsMade = commentsMade;
 		this.istorijaTreninga = istorijaTreninga;
+		this.sveClanarine = sveClanarine;
 	}
 
 	public int getNumberOfPoints() {
@@ -67,6 +69,14 @@ public class Customer extends User {
 
 	public void setIstorijaTreninga(ArrayList<IstorijaTreninga> istorijaTreninga) {
 		this.istorijaTreninga = istorijaTreninga;
+	}
+
+	public ArrayList<Clanarina> getSveClanarine() {
+		return sveClanarine;
+	}
+
+	public void setSveClanarine(ArrayList<Clanarina> sveClanarine) {
+		this.sveClanarine = sveClanarine;
 	}
 
 	

@@ -587,7 +587,7 @@ export default {
             }
             if(parsToken.role === "coach"){
                 this.isCoach = true;
-                dataService.getCoach(id).then(response => {
+                dataService.getTrener(id).then(response => {
                     console.log("korisnik je trener")
                     this.profileCoach = response.data;
                 })
@@ -616,12 +616,12 @@ export default {
         }
     },
     created(){
-        // if(JSON.parse(localStorage.getItem('token')) == null){
-        //     this.$router.push(`/login`);
-        // }else{
-        //     this.getUserProfileData(this.id);
-        // }
-         this.getUserProfileData(this.id);
+        if(JSON.parse(localStorage.getItem('token')) == null){
+            this.$router.push(`/login`);
+        }else{
+            this.getUserProfileData(this.id);
+        }
+         
     },
     
 }
@@ -633,7 +633,7 @@ export default {
 <style scoped>
 
 #titleEffect{
-  color:gold;
+  color:rgb(65, 62, 50);
   font-weight: bold;
 }
 

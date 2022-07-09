@@ -174,9 +174,19 @@ public class ObjekatDAO {
 			}
 		}
 		o.getTreningList().add(a);
+		System.out.println("try" + o); 
+		System.out.println("TRENING LISTA" + o.getTreningList()); 
 		Gson gson = new Gson();
 		Collection<Objekat> tmp = this.objekti.values();
+		for(Objekat tempObjekat : tmp){
+			System.out.println("aj da vidimo ovako" + tempObjekat.getTreningList());
+			if(tempObjekat.getName().equals(objectName)){
+				o = tempObjekat;
+				break;
+			}
+		}
 		String fileInput = gson.toJson(tmp);
+//		System.out.println("Upis novog objekta u bazu." + fileInput);
 		try(BufferedWriter bw = new BufferedWriter(new FileWriter(contextPath + "objekti.json", false))){
 			System.out.println("Upis novog objekta u bazu.");
 			bw.append(fileInput);

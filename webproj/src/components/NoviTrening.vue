@@ -29,6 +29,14 @@
                         </span>                    
                     </td>
                 </tr>
+                  <tr>
+                   <td>
+                       <label class='label'>Trajanje treninga u minutima:</label>
+                    </td> 
+                    <td>
+                        <input type="number" min="0" placeholder="Unesite trajanje treninga ..."  v-model="newTrening.trajanje">
+                    </td>
+                </tr>
                 <tr>
                     <td>
                         <label class='label'>Dodajte trenera za ovaj trening:</label>
@@ -37,7 +45,7 @@
                         <span>
                             <select style="width:100%;padding:5px;" v-model="newTrening.trener">
                                 <option disabled value="">Odaberite trenera</option>
-                                <option v-bind:key="tempTrener.username" v-for="tempTrener in listaTrenera1">{{tempTrener.username}}</option>
+                                <option v-bind:key="tempTrener.username" v-for="tempTrener in listaTrenera">{{tempTrener.username}}</option>
                             </select>
 
                         </span>
@@ -137,14 +145,7 @@ export default {
             ]
         }
     },
-    // watch:{
-    //     'newProduct.cena':function(val){
-    //         this.newProduct.cena = val.replace(/[^0-9]/g, "");
-    //     },
-    //     'newProduct.kolicina':function(val){
-    //         this.newProduct.kolicina = val.replace(/[^0-9]/g, "");
-    //     },
-    // },
+
     methods:{
         getObject(){
             dataService.getObjectByManager(this.username).then(response => {
@@ -214,10 +215,11 @@ export default {
         },
     },
     created(){      
-        // let temp = JSON.parse(localStorage.getItem('token'));
-        // this.username = temp.username;
-        // this.getObject();
-        // this.getListaTrenera();
+        let temp = JSON.parse(localStorage.getItem('token'));
+        this.username = temp.username;
+        this.getObject();
+        this.getListaTrenera();
+        
     }
 }
 </script>

@@ -81,7 +81,7 @@
 </template>
 
 <script>
-// import dataService from '../services/DataService'
+import dataService from '../services/DataService'
 import Datepicker from 'vuejs-datepicker'
 
 export default {
@@ -120,7 +120,7 @@ export default {
     methods:{
         createCoach:function(){
             console.log("Kreiranje trenera: " + this.newCoach.username);
-            dataService.addCoach(this.newCoach).then(response => {
+            dataService.addTrener(this.newCoach).then(response => {
                 console.log("Stigao odgovor sa beka: " + response);
                 this.messages.successResponse= "<h4>Uspesno ste kreirali trenera.</h4>"
                 setTimeout(() => this.$router.push("/home"),5000);
