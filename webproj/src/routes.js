@@ -17,6 +17,8 @@ import PretragaObjekata from './components/PretragaObjekata'
 import SviKorisnici from './components/SviKorisnici'
 import MojObjekat from './components/MojObjekat'
 import MojiTreninzi from './components/MojiTreninzi'
+import MojiTreninziKupac from './components/MojiTreninziKupac'
+import MojaClanarina from './components/MojaClanarina'
 
 export default[
     {
@@ -113,5 +115,16 @@ export default[
         path:'/treninzi/details',
         name:'MojiTreninzi',
         component:MojiTreninzi
+    }
+    ,
+    {
+        path:'/treninzi/detailsKupac',
+        name:'MojiTreninziKupac',
+        component:MojiTreninziKupac
+    } ,
+    {
+        path:'/mojaClanarina',
+        name:'MojaClanarina',
+        component:MojaClanarina
     }
 ]

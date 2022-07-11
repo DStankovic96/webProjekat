@@ -127,7 +127,7 @@
 
                      <div v-show="isCustomer" class="col-xl-3 col-md-6 mb-4">
                         <div class="card border-0 shadow">
-                            <router-link style='text-decoration: none;color:#35424a;' to="/treninziCustomer" class="nav-link"
+                            <router-link style='text-decoration: none;color:#35424a;' to="/treninzi/detailsKupac" class="nav-link"
                                 exact>
                                 <img src="../assets/comment1.png" class="card-img-top" alt="...">
                                 <div class="card-body text-center">
@@ -137,6 +137,7 @@
                             </router-link>
                         </div>
                     </div>
+                    
 
                 <div class="col-xl-3 col-md-6 mb-4">
                         <div class="card border-0 shadow">

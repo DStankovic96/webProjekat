@@ -84,8 +84,10 @@
                                         <h5 class="card-title">Trening: {{tempTrening.naziv}}</h5>
                                         <b><p class="card-text">Tip treninga: {{tempTrening.tipTreninga}}</p>
                                         <p class="card-text">Trener zaduzen za ovaj trening: {{tempTrening.trener}}</p></b>
-                                        <!-- <button v-on:click="Treniraj(tempTrening, index)" class="btn btn-primary">Dodaj</button> -->
+                                        <button v-show="isCustomer" v-on:click="Treniraj(tempTrening)" class="btn btn-primary">Treniraj</button>
                                         <!-- <button v-show="isOwner" v-on:click="removeEntity(tempVikendica.id)" class="btn btn-danger">Ukloni</button> -->
+                                        <!-- <div v-if='messages.successResponse' class="alert alert-success" v-html="messages.successResponse"></div>
+                                        <div v-if='messages.errorResponse' class="alert alert-success" v-html="messages.errorResponse"></div> -->
                                     </div>
                                 </div>
                             </div>
@@ -111,7 +113,12 @@ export default {
     data(){
         return{
 
-           
+            messages:{
+                errorResponse:'',
+                successResponse:'',
+                errorResponse2:'',
+                successResponse2:''
+            },
            
 
             loadObject:{
@@ -132,13 +139,86 @@ export default {
                 ocena:0
             },
 
-           
-           
+            username:'',
+            isCustomer:false,
             inputValues : [],
+            customer:[],
+            clanarine:[],
+            istorijaTreninga:[],
+            istorijaTrening:{
+                datum:'',
+                trening:'',
+                kupac:'',
+                trener:'',
+            }
         }
     },
     methods:{
-        
+
+        getClanarine(username){
+             dataService.getAllClanarineKupac(username).then(response => {
+                    this.clanarine = response.data;
+                     
+                })
+        },
+        getIstorijaTreningaKupac(username){
+             dataService.getITreningaKupac(username).then(response => {
+                    this.istorijaTreninga = response.data;
+                    // console.log("DAAAAAAAAAAA" + JSON.parse(this.istorijaTreninga));
+                     
+                })
+        },
+        Treniraj(tempTrening){
+            
+            console.log("MSG" + JSON.stringify(this.clanarine));
+             if(this.clanarine.length === 0){
+                alert("NEMATE UPLACENU CLANARINU!");
+             }
+            for(let i = 0; i<this.clanarine.length; i++){
+                
+                if(this.clanarine[i].statusClanarine==='aktivna'){
+                    
+                        if(this.clanarine[i].brojTermina>0){
+                    
+                            this.clanarine[i].brojTermina=this.clanarine[i].brojTermina-1;
+                            // this.successResponse = "<h4>Doslo je do greske!.</h4>"
+                            // setTimeout(() => this.successResponse='', 3000);
+                            this.istorijaTrening.datum=new Date().toString().substring(4, 15);
+                            this.istorijaTrening.trening=tempTrening.naziv;
+                            this.istorijaTrening.kupac=this.username;
+                            this.istorijaTrening.trener=tempTrening.trener;
+
+                            this.istorijaTreninga.push(this.istorijaTrening);
+
+                           
+
+                            dataService.posaljiClanarinu1(this.username,this.clanarine).then(response => {
+                                 console.log("poslato na bek");
+                            
+                          
+                            })
+
+                          
+                             
+                        }else{
+                        
+                            // this.errorResponse = "<h4>Doslo je do greske!.</h4>"
+                            // setTimeout(() => this.errorResponse='', 3000);
+                            console.log("vas broj termina je 0");
+                             alert("VAS BROJ TERMINA JE 0!");
+                             break;
+                        }
+                           console.log("poslato na bek istorija treninga" + JSON.stringify(this.istorijaTreninga));
+                             dataService.posaljiTrening(this.username, this.istorijaTreninga).then(response => {
+                                 console.log("poslato na bek istorija treninga");
+                            
+                          
+                            })
+                 console.log("NOVO" + this.clanarine[i].brojTermina);
+                }
+            }
+
+        },
         managerProfile(){
             this.$router.push(`/profile/${this.manager}`)
         },
@@ -187,9 +267,18 @@ export default {
     },
     },
     created(){
-        if(JSON.parse(localStorage.getItem('token')) == null){
+        let temp = JSON.parse(localStorage.getItem('token'));
+        if(temp == null){
             this.$router.push(`/login`);
         }else{
+             if(temp.role==='customer')
+        {
+            this.isCustomer=true;
+            this.username=temp.username;
+            this.getClanarine(temp.username);
+            this.getIstorijaTreningaKupac(temp.username);
+           
+        }
             this.getObject();
         }
     },

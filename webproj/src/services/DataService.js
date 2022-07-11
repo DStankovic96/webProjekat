@@ -139,7 +139,17 @@ class DataService{
     {
         return axios.post(`${API_URL}/clanarine/${username}`, clanarineKupac);
     }
-   
+    updateClanarinu1(username,clanarineKupac)
+    {
+        return axios.put(`${API_URL}/clanarine/${username}`, clanarineKupac);
+    }
+    getITreningaKupac(username){
+        return axios.get(`${API_URL}/istorijaTreninga/${username}`);
+    }
+    posaljiTrening(username, istorijaTreninga)
+    {
+        return axios.post(`${API_URL}/istorijaTreninga/${username}`, istorijaTreninga);
+    }
 
 }
 

@@ -246,6 +246,7 @@ export default {
                 });
                  console.log("PRVI TESTTB" + JSON.stringify(this.clanarineKupac));
             }else{
+                this.getClanarineKupac(tempUsername);
                  console.log("DRUGI TESTTA" + JSON.stringify(this.clanarineKupac));
                  for(let i = 0; i < this.clanarineKupac.length; i++){
                     if(this.clanarineKupac[i].statusClanarine === "aktivna")

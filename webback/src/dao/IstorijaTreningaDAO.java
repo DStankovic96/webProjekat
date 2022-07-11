@@ -14,24 +14,22 @@ import com.google.gson.stream.JsonReader;
 
 import model.Clanarina;
 import model.Customer;
-import model.Komentar;
+import model.IstorijaTreninga;
 
+public class IstorijaTreningaDAO {
 
-
-public class ClanarinaDAO {
-		private Map<String, Clanarina> clanarine = new HashMap<>();
 		private Map<String, Customer> kupci = new HashMap<>();
 		private String contextPath;
 		
-		public ClanarinaDAO(){
+		public IstorijaTreningaDAO(){
 			
 		}
-		public ClanarinaDAO(String contextPath){
+		public IstorijaTreningaDAO(String contextPath){
 			this.contextPath = contextPath;
-			loadClanarine(contextPath);
+			loadIstorijaTreninga(contextPath);
 		}
 		
-		public void loadClanarine(String contextPath) {
+		public void loadIstorijaTreninga(String contextPath) {
 			ArrayList<Customer> kupcii = new ArrayList<Customer>();
 			try {
 				JsonReader reader = new JsonReader(new FileReader(contextPath + "customers.json"));
@@ -47,17 +45,18 @@ public class ClanarinaDAO {
 				
 		}
 		
-		public Collection<Clanarina> findAllClanarineForCustomer(String name){
+		public Collection<IstorijaTreninga> findAllIstorijaTreningaForCustomer(String name){
 //			System.out.println("IDEMO DRUGI TESTIC");
 			if(this.kupci.containsKey(name)) {
-				return kupci.get(name).getSveClanarine();
+				return kupci.get(name).getIstorijaTreninga();
 			}
 			return null;
 		}
 		
-		
-		
-		public ArrayList<Clanarina> posaljiClanarinu1(String name, ArrayList<Clanarina> clanarina){
+		public ArrayList<IstorijaTreninga> posaljiIstorijuTreninga(String name, ArrayList<IstorijaTreninga> istorijaTreninga){
+			System.out.println("USLO U DODAj NOVU ISTORIJU TRENINGA DAO ODMA");
+			loadIstorijaTreninga(contextPath);
+			System.out.println("USLO U DODAj NOVU ISTORIJU TRENINGA DAO");
 			Collection<Customer> temp = kupci.values();
 			Customer c = new Customer();
 			for(Customer tempCustomer : kupci.values()){
@@ -71,11 +70,12 @@ public class ClanarinaDAO {
 //				if(clanarin)
 //			}
 			
-			c.setSveClanarine(clanarina);
+			c.setIstorijaTreninga(istorijaTreninga);
 			Gson gson = new Gson();
 			Collection<Customer> tmp = this.kupci.values();
 			String fileInput = gson.toJson(tmp);
-
+			
+			System.out.println("USLO U DODAj NOVU ISTORIJU TRENINGA DAO3");
 			try(BufferedWriter bw = new BufferedWriter(new FileWriter(contextPath + "customers.json", false))){
 				System.out.println("Upis novog u bazu.");
 				bw.append(fileInput);
@@ -86,36 +86,6 @@ public class ClanarinaDAO {
 			}
 	
 			
-			return clanarina;
-		}
-		
-		public ArrayList<Clanarina> updateClanarinu1(String name, ArrayList<Clanarina> clanarina){
-			Collection<Customer> temp = kupci.values();
-			Customer c = new Customer();
-			for(Customer tempCustomer : kupci.values()){
-				if(tempCustomer.getName().equals(name)){
-					c = tempCustomer;
-					break;
-				}
-			}
-			
-
-			
-			c.setSveClanarine(clanarina);
-			Gson gson = new Gson();
-			Collection<Customer> tmp = this.kupci.values();
-			String fileInput = gson.toJson(tmp);
-
-			try(BufferedWriter bw = new BufferedWriter(new FileWriter(contextPath + "customers.json", false))){
-				System.out.println("Upis novog u bazu.");
-				bw.append(fileInput);
-				bw.append("\n");
-				bw.close();
-			}catch(IOException e) {
-				e.printStackTrace();
-			}
-	
-			
-			return clanarina;
+			return istorijaTreninga;
 		}
 }
