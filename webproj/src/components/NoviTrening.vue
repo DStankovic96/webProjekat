@@ -170,6 +170,7 @@ export default {
 
             console.log(JSON.stringify(this.newTrening));
             console.log(this.newTrening);
+            console.log(this.newTrening.trener);
             console.log("NA BEK IDE KORISNICKO IME: " + this.username);
             dataService.addTrening(this.object.name, this.newTrening).then(response => {
                 console.log(response.data);

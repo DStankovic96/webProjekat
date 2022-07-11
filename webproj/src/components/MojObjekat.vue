@@ -38,15 +38,7 @@
                             <label>{{loadObject.type}}</label>
                         </td>
                     </tr>
-                    <tr>
-                        <td>
-                            <label>Menadzer objekta:</label>
-                        </td>
-                        <td>
-                            <label>{{loadObject.manager}}</label>
-                            <!-- <button class="btn btn-primary" @click="managerProfile()">Profil</button> -->
-                        </td>
-                    </tr>
+                  
                     <tr>
                         <td>
                             <label>Ocena objekta({{ocenaObjekta}}):</label>
@@ -131,7 +123,6 @@ export default {
                 manager:'',
                 ocena:0
             },
-
            
            
             inputValues : [],
@@ -139,14 +130,9 @@ export default {
     },
     methods:{
         
-        managerProfile(){
-            this.$router.push(`/profile/${this.manager}`)
-        },
-        showComments(){
-            this.$router.push(`/commentNew/${this.loadObject.name}`);
-        },
-        getObject(){
-            dataService.getObject(this.id).then(response => {
+        getMojObjekat(temp){
+            console.log("dsadasdsa" + temp);
+            dataService.getObjectByManager(temp).then(response => {
                 this.loadObject = response.data;
                 console.log("Naziv pronadjenog objekta je: " + this.loadObject.name);
                 
@@ -154,9 +140,24 @@ export default {
                 console.log(error.response);
             })
         },
+         showComments(){
+            this.$router.push(`/commentNew/${this.loadObject.name}`);
+        },
       
     },
-    computed:{
+   created(){
+        if(JSON.parse(localStorage.getItem('token')) == null){
+            this.$router.push(`/login`);
+        }else{
+            let parsToken = JSON.parse(localStorage.getItem('token'));
+            console.log("TOKEN PROCITAN IZ LOCALSTORAGE-a: " + JSON.stringify(parsToken));
+          
+            let temp = parsToken.username;
+             console.log("usERNAME" + temp);
+            this.getMojObjekat(temp);
+        }
+    },
+     computed:{
         
         ocenaObjekta(){
             let tempSize = this.loadObject.comments.length;
@@ -166,39 +167,15 @@ export default {
             }
             let ocena = tempOcena/tempSize;
             return  parseInt(ocena);
-        },
-        id(){
-            return this.$route.params.id;
-        },
-        getOtherImgs: function () {
-            console.log("getOtherImgs: ");
-            //Prva slika mora da se manuelno postavi, a ostale se dodaju preko v-for:
-            let imgs = this.loadObject.images.slice(1);
-            //Ako ima samo jednu sliku onda se sklanjaju strelice < > za kretanje kroz slike.
-            if (imgs.length === 0) {
-                console.log("imgs.lenght je = 0 ");
-                this.isOtherImgs = false;
-                console.log("this.isOtherImgs: " + this.isOtherImgs);
-            } else {
-                //vec je true, ali za svaki slucaj
-                this.isOtherImgs = true;
-                return imgs;
-            }
-    },
-    },
-    created(){
-        if(JSON.parse(localStorage.getItem('token')) == null){
-            this.$router.push(`/login`);
-        }else{
-            this.getObject();
         }
-    },
-    components:{
+     },
+      components:{
         starrating : starRating,
         carousel3d:Carousel3d,
-        slide:Slide,
+         slide:Slide,
+      
     }
-
+    
 
 
 

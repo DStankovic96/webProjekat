@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
@@ -17,7 +18,7 @@ import com.google.gson.stream.JsonReader;
 
 
 import model.Objekat;
-
+import model.Trener;
 import model.Trening;
 
 
@@ -25,6 +26,7 @@ import model.Trening;
 public class ObjekatDAO {
 	
 	private Map<String, Objekat> objekti = new HashMap<>();
+	private Map<String, Trener> treneri = new HashMap<>();
 	private String contextPath;
 	
 	public ObjekatDAO(){
@@ -34,6 +36,7 @@ public class ObjekatDAO {
 	public ObjekatDAO(String contextPath){
 		this.contextPath=contextPath;
 		loadObjekti(contextPath);
+		loadTreneri(contextPath);
 	}
 	
 	public void loadObjekti(String contextPath){
@@ -45,6 +48,23 @@ public class ObjekatDAO {
 			if(tempObjekti != null){
 				for(Objekat o : tempObjekti){
 					objekti.put(o.getName(), o);
+				}
+			}
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void loadTreneri(String contextPath){
+		BufferedReader in = null;
+		try{
+			JsonReader reader = new JsonReader(new FileReader(contextPath + "treneri.json"));
+			Gson gson = new Gson();
+			Trener[] tempTreneri = gson.fromJson(reader, Trener[].class);
+			if(tempTreneri != null){
+				for(Trener o : tempTreneri){
+					treneri.put(o.getUsername(), o);
 				}
 			}
 			
@@ -112,7 +132,7 @@ public class ObjekatDAO {
 //			objekti.replace(objekat.getName(), objekat);
 //			Gson gson = new Gson();
 //			String temp = gson.toJson(objekti);
-//			try(BufferedWriter bw = new BufferedWriter(new FileWriter(contextPath + "restorani.json", false))){
+//			try(BufferedWriter bw = new BufferedWriter(new FileWriter(contextPath + "objekti.json", false))){
 //				bw.append(temp);
 //				bw.append("\n");
 //				bw.close();
@@ -130,7 +150,7 @@ public class ObjekatDAO {
 //			objekti.remove(objekat.getName());
 //			Gson gson = new Gson();
 //			String temp = gson.toJson(objekti);
-//			try(BufferedWriter bw = new BufferedWriter(new FileWriter(contextPath + "restorani.json", false))){
+//			try(BufferedWriter bw = new BufferedWriter(new FileWriter(contextPath + "objekti.json", false))){
 //				bw.append(temp);
 //				bw.append("\n");
 //				bw.close();
@@ -155,9 +175,12 @@ public class ObjekatDAO {
 	}
 	
 	public Trening addTrening(String objectName, Trening a){
+		System.out.println("DADADADADADADA" + a.getTrener());
 		Collection<Objekat> temp = objekti.values();
+		Collection<Trener> temp1 = treneri.values();
 		System.out.println("STA ISPISUJE Collection<Objekat> temp = objekti.values()." + temp);
 		Objekat o = new Objekat();
+		Trener t = new Trener();
 		//u for petlji dobijarmo objekat o u kojem radi prosledjeni menadzer
 		for(Objekat tempObjekat : objekti.values()){
 			System.out.println("STA ISPISUJE Collection<Objekat> temp = objekti.values()." + tempObjekat.getType());
@@ -173,11 +196,20 @@ public class ObjekatDAO {
 				return null;
 			}
 		}
+		for(Trener tempTrener : treneri.values()){
+//			System.out.println("STA ISPISUJE Collection<Objekat> temp = objekti.values()." + tempObjekat.getType());
+			if(tempTrener.getName().equals(a.getTrener())){
+				t = tempTrener;
+				break;
+			}
+		}
 		o.getTreningList().add(a);
+		t.getTrening().add(a);
 		System.out.println("try" + o); 
 		System.out.println("TRENING LISTA" + o.getTreningList()); 
 		Gson gson = new Gson();
 		Collection<Objekat> tmp = this.objekti.values();
+		
 		for(Objekat tempObjekat : tmp){
 			System.out.println("aj da vidimo ovako" + tempObjekat.getTreningList());
 			if(tempObjekat.getName().equals(objectName)){
@@ -185,11 +217,28 @@ public class ObjekatDAO {
 				break;
 			}
 		}
+		Collection<Trener> tmp1 = this.treneri.values();
+		for(Trener tempTrener : tmp1){
+//			System.out.println("STA ISPISUJE Collection<Objekat> temp = objekti.values()." + tempObjekat.getType());
+			if(tempTrener.getName().equals(a.getTrener())){
+				t = tempTrener;
+				break;
+			}
+		}
 		String fileInput = gson.toJson(tmp);
+		String fileInput1 = gson.toJson(tmp1);
 //		System.out.println("Upis novog objekta u bazu." + fileInput);
 		try(BufferedWriter bw = new BufferedWriter(new FileWriter(contextPath + "objekti.json", false))){
 			System.out.println("Upis novog objekta u bazu.");
 			bw.append(fileInput);
+			bw.append("\n");
+			bw.close();
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+		try(BufferedWriter bw = new BufferedWriter(new FileWriter(contextPath + "treneri.json", false))){
+			System.out.println("Upis novog treninga u bazu.");
+			bw.append(fileInput1);
 			bw.append("\n");
 			bw.close();
 		}catch(IOException e) {
@@ -210,6 +259,72 @@ public class ObjekatDAO {
 		}
 		
 		return r.getTreningList();
+	}
+	
+	public Collection<Objekat> findFilteredResults(Objekat objekat){
+		loadObjekti(contextPath);
+		Collection<Objekat> tmp = new ArrayList<Objekat>();
+		Collection<Objekat> test = new ArrayList<Objekat>();
+		Collection<Objekat> tmp2 = new ArrayList<Objekat>();
+		Collection<Objekat> tmp3 = new ArrayList<Objekat>();
+		Collection<Objekat> tmp4 = new ArrayList<Objekat>();
+		
+
+		
+		
+		
+		Predicate<Objekat> filter1; /*= e -> objekat.getName() == "" ? true : e.getName().equals(objekat.getName());*/
+		Predicate<Objekat> filter2; /*= e -> objekat.getLokacija().getDrzava() == "" ? true : e.getLokacija().getDrzava().equals(objekat.getLokacija().getDrzava());*/
+		Predicate<Objekat> filter3;/*= e -> objekat.getType() == "" ? true : e.getType().equals(objekat.getType());*/
+		Predicate<Objekat> filter4;/*= e -> objekat.getOcena() == 0 ? true : e.getOcena() == objekat.getOcena();*/
+		
+		if(objekat.getName() == null) {
+			filter1 = e -> true;
+		}else {
+			filter1 = e -> e.getName().toLowerCase().equals(objekat.getName().toLowerCase());
+		}
+		if(objekat.getLokacija() == null) {
+			filter2 = e -> true;
+		}else {
+			filter2 = e -> e.getLokacija().getMesto().toLowerCase().equals(objekat.getLokacija().getDrzava().toLowerCase());
+		}
+		if(objekat.getType() == null) {
+			filter3 = e -> true;
+		}else {
+			filter3 = e -> e.getType().toLowerCase().equals(objekat.getType().toLowerCase());
+		}
+		if(objekat.getOcena() == 0) {
+			filter4 = e -> true;
+		}else {
+			filter4 = e -> e.getOcena() == objekat.getOcena();
+		}
+		
+		
+		test = objekti.values().stream().filter(filter1).filter(filter2).filter(filter3).filter(filter4).
+				collect(Collectors.toList());
+		
+
+		
+		
+		Collection<Objekat> searchResult = new ArrayList<Objekat>();
+		
+		for(Objekat r : test) {
+			if(test.contains(r)) {
+				searchResult.add(r);
+			}
+		}
+		
+//		Collection<Objekat> searchResult = new ArrayList<Objekat>();
+//		for(Objekat r : tmp) {
+//			if(tmp2.contains(r)) {
+//				searchResult.add(r);
+//			}
+//		}
+//		System.out.println("Pronadjeno je: " + tmp.size() + " objekata koji zadovoljavaju kriterijume.");
+//		return tmp;
+		System.out.println("Pronadjeno je: " + searchResult.size() + " objekata koji zadovoljavaju kriterijume.");
+		return searchResult;
+		
 	}
 
 }

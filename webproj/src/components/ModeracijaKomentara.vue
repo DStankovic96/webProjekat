@@ -14,8 +14,8 @@
                         <section style="margin-left: 10px; margin-bottom:100px">
                             <div>
                                 <div class="row">
-                                    <div class="col-md-4" v-bind:key="tempKomentar.id" v-for="tempKomentar in neodobreniKomentari">
-                                        <div style="margin-bottom:30px;" class="card h-100">
+                                    <div class="col-md-4" v-bind:key="tempKomentar.tekstKomentara" v-for="tempKomentar in neodobreniKomentari">
+                                        <div v-show="!tempKomentar.odobren" style="margin-bottom:30px;" class="card h-100">
                                             <!-- <img class="card-img-top" :src="tempArtikal.slika" alt="card image collar"> -->
                                             <div class="card-body">
                                                 <h5 class="card-title">Komentar</h5>
@@ -32,9 +32,9 @@
                             </div>
                         </section>
                     </div>
-                    <div style="margin-bottom:100px;" class="text-center">
+                    <!-- <div style="margin-bottom:100px;" class="text-center">
                         <button class="btn btn-success" @click="potvrdiModeraciju()">Potvrdi</button>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 
@@ -43,7 +43,7 @@
 </template>
 
 <script>
-// import dataService from '../services/DataService'
+import dataService from '../services/DataService'
 import starRating from 'vue-star-rating'
 export default {
     components:{
@@ -61,30 +61,38 @@ export default {
         }
     },
     methods:{
-        potvrdiModeraciju(){
-            dataService.sendModeratedCommentList(this.idManager, this.neodobreniKomentari).then(response => {
+    
+        odbaciKomentar(cmnt){
+            console.log("odbacen" + JSON.stringify(cmnt));
+            cmnt.odobren = false;
+            console.log("odbacen" + JSON.stringify(cmnt));
+            dataService.sendModeratedCommentList(cmnt).then(response => {
                 console.log('moderacija poslata na server, stigao odgovor');
             }).catch(error => {
                 console.log(error.response);
             })
         },
-        odbaciKomentar(cmnt){
-            cmnt.odobren = false;
-        },
         odobriKomentar(cmnt){
+             console.log("odobren" + JSON.stringify(cmnt));
             cmnt.odobren = true;
+            console.log("odobren" + JSON.stringify(cmnt));
+            dataService.sendModeratedCommentList(cmnt).then(response => {
+                console.log('moderacija poslata na server, stigao odgovor');
+            }).catch(error => {
+                console.log(error.response);
+            })
         },
-        getId(){
-            this.idManager = (JSON.parse(localStorage.getItem('token'))).username;
-            console.log('idManager: ' + this.idManager);
-        },
+        // getId(){
+        //     this.idManager = (JSON.parse(localStorage.getItem('token'))).username;
+        //     console.log('idManager: ' + this.idManager);
+        // },
         getUnmoderated(){
             // let temp = JSON.parse(localStorage.getItem('token'));
             // idManager = temp.username;
-            dataService.getAllUnmoderatedComments(this.idManager).then(response => {
+            dataService.getAllUnmoderatedComments().then(response => {
             console.log('stigli svi nemoderirani komentari');
             this.neodobreniKomentari = response.data;
-            console.log(response.data)
+            console.log(JSON.stringify(this.neodobreniKomentari))
             }).catch(error => {
                 console.log(error.response);
             });
@@ -99,8 +107,8 @@ export default {
         }
     },
     created(){
-        this.getId();
-        this.getModerated();
+        // this.getId();
+        // this.getModerated();
         this.getUnmoderated();
     }
 }

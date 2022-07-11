@@ -78,8 +78,7 @@ export default {
                 password:'',
                 gender:'',
                 dateOfBirth:'',
-                listOfActiveOrders:[],
-                listOfAllOrders:[],
+              
             },
             //ako je menadzer
             profileManager: {
@@ -90,7 +89,7 @@ export default {
                 password:'',
                 gender:'',
                 dateOfBirth:'',
-                restaurant:''
+                
             },
             //ako je Kupac
             profileCustomer:{
@@ -101,10 +100,7 @@ export default {
                 password:'',
                 gender:'',
                 dateOfBirth:'',
-                listOfAllOrders:null,
-                cart:null,
-                numberOfPoints:0,
-                typeOfCustomer:''
+                
             },
             //ako je admin
             profileAdmin:{

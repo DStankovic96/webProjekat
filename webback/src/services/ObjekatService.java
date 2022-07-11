@@ -14,9 +14,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import dao.ObjekatDAO;
-
+import model.Lokacija;
 import model.Objekat;
-
 import model.Trening;
 
 @Path("/objects")
@@ -90,7 +89,66 @@ public class ObjekatService {
 	@Path("/yours/{username}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Collection<Trening> getTreninzi(@PathParam("username") String username) {
-		ObjekatDAO dao = (ObjekatDAO)ctx.getAttribute("restoranDAO");
+		ObjekatDAO dao = (ObjekatDAO)ctx.getAttribute("objekatDAO");
 		return dao.getTreninzi(username);
+	}
+	
+	@GET
+	@Path("/filtered/{request}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Collection<Objekat> getFilteredObjects(@PathParam("request") String request){
+		ObjekatDAO dao = (ObjekatDAO)ctx.getAttribute("objekatDAO");
+		String name = "";
+		String lokacija = "";
+		int ocena = 0;
+		String tip = "";
+		Objekat r = new Objekat();
+		boolean tempBoolean = false;
+		try {
+			String[] tokens = request.split("&");
+			for(String s : tokens) {
+				String[] tempTokens = s.split(":");
+				if(tempTokens[0].equals("name")) {
+					if(!tempTokens[1].equals("_")) {
+						name = tempTokens[1];
+						r.setName(name);
+						tempBoolean = true;
+					}
+				}
+				else if(tempTokens[0].equals("type")) {
+					if(!tempTokens[1].equals("_")) {
+						tip = tempTokens[1];
+						r.setType(tip);
+						tempBoolean = true;
+					}
+					
+				}
+				else if(tempTokens[0].equals("lokacija")) {
+					if(!tempTokens[1].equals("_")) {
+						lokacija = tempTokens[1];
+						Lokacija l = new Lokacija("","", "", lokacija);
+						r.setLokacija(l);
+						tempBoolean = true;
+					}
+					
+				}
+				else if(tempTokens[0].equals("ocena")) {
+					if(!tempTokens[1].equals("_")) {
+						ocena = Integer.parseInt(tempTokens[1]);
+						r.setOcena(ocena);
+						tempBoolean = true;
+					}
+				}
+			}
+		
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return dao.findFilteredResults(r);
+//		System.out.println("NAZIV TRAZENOG OBJEKTA JE: " + r.getName());
+//		if(tempBoolean == true) {
+//			
+//		}
+//			return null;		
 	}
 }

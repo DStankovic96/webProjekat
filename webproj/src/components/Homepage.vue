@@ -61,6 +61,43 @@
                             </router-link>
                         </div>
                     </div>
+                    <div v-show="isAdmin" class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-0 shadow">
+                            <router-link style='text-decoration: none;color:#35424a;' to="/sviKorisnici" class="nav-link"
+                                exact>
+                                <img height="223" src="../assets/logo.png" class="card-img-top" alt="...">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title mb-0">Prikaz svih korisnika u sistemu</h5>
+                                    
+                                </div>
+                            </router-link>
+                        </div>
+                    </div>
+                     <div v-show="isManager" class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-0 shadow">
+                            <router-link style='text-decoration: none;color:#35424a;' to="/object/details" class="nav-link"
+                                exact>
+                                <img height="223" src="../assets/logo.png" class="card-img-top" alt="...">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title mb-0">Prikaz Vaseg objekta</h5>
+                                    
+                                </div>
+                            </router-link>
+                        </div>
+                    </div>
+
+                      <div v-show="isCoach" class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-0 shadow">
+                            <router-link style='text-decoration: none;color:#35424a;' to="/treninzi/details" class="nav-link"
+                                exact>
+                                <img height="223" src="../assets/logo.png" class="card-img-top" alt="...">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title mb-0">Pregled treninga</h5>
+                                    
+                                </div>
+                            </router-link>
+                        </div>
+                    </div>
 
                      <div v-show="isManager" class="col-xl-3 col-md-6 mb-4">
                         <div class="card border-0 shadow">
@@ -75,7 +112,7 @@
                         </div>
                     </div>
 
-                     <div v-show="isManager" class="col-xl-3 col-md-6 mb-4">
+                     <div v-show="isAdmin" class="col-xl-3 col-md-6 mb-4">
                         <div class="card border-0 shadow">
                             <router-link style='text-decoration: none;color:#35424a;' to="/moderation" class="nav-link"
                                 exact>
@@ -101,7 +138,7 @@
                         </div>
                     </div>
 
-                <div v-show="isCustomer" class="col-xl-3 col-md-6 mb-4">
+                <div class="col-xl-3 col-md-6 mb-4">
                         <div class="card border-0 shadow">
                             <router-link style='text-decoration: none;color:#35424a;' to="/searchObjects" class="nav-link"
                                 exact>
@@ -127,6 +164,7 @@
 <script>
 
 
+import dataService from '../services/DataService'
 export default {
    components:{
     
@@ -142,7 +180,12 @@ export default {
             isObican: false,
             isManager: false,
             isCoach: false,
-            role: ''
+            role: '',
+
+            object: [],
+            id:''
+
+        
         }
    },
    methods:{
@@ -178,6 +221,16 @@ export default {
         {
             this.isManager=true;
             this.role='manager';
+            dataService.getObjectByManager(temp.username).then(response => {
+                this.object = response.data;
+                this.id=this.object.name;
+                console.log(this.object)
+                console.log('stigao objekat sa servera: ' + this.object.name);
+            }).catch(error => {
+                console.log(error.response);
+            });
+        
+         
         }
         if(temp.role==='customer')
         {
@@ -189,6 +242,9 @@ export default {
             this.isCoach=true;
             this.role='coach';
         }       
+   },
+   methods : {
+        
    }
 }
 </script>

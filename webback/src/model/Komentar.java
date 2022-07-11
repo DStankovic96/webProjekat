@@ -2,7 +2,7 @@ package model;
 
 public class Komentar {
 	
-	private int id;
+	private String id;
 	private boolean odobren = false;
 	private String kupacKomentator;
 	private String komentarisaniObjekat;
@@ -26,11 +26,11 @@ public class Komentar {
 		super();
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

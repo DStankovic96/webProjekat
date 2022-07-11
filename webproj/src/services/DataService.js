@@ -5,21 +5,25 @@ const API_URL = "http://localhost:8080/webProj/rest";
 class DataService{
     
     //komentari
-    // addComment(comment){
-    //     return axios.post(`${API_URL}/comments/`, comment);
-    // }
-    // getAllCommentsByObjectId(idObjekta){
-    //     return axios.get(`${API_URL}/comments/byObjekat/${idObjekta}`);
-    // }
+    addComment(comment){
+        return axios.post(`${API_URL}/comments/`, comment);
+    }
+    getAllCommentsByObjectId(idObjekta){
+        return axios.get(`${API_URL}/comments/byObjekat/${idObjekta}`);
+    }
+    //odobreni
     // getAllCommentsById(idManager){
     //     return axios.get(`${API_URL}/comments/${idManager}`);
     // }
-    // getAllUnmoderatedComments(idManager){
-    //     return axios.get(`${API_URL}/comments/unmoderated/${idManager}`);
-    // }
-    // sendModeratedCommentList(idManagera, komentari){
-    //     return axios.post(`${API_URL}/comments/moderated/${idManagera}`, komentari);
-    // }
+    //neodobreni
+    getAllUnmoderatedComments(){
+        console.log("USAO u unmoderated");
+        return axios.get(`${API_URL}/comments/unmoderated/`);
+    }
+    //slanje sa managera
+    sendModeratedCommentList(komentar){
+        return axios.post(`${API_URL}/comments/moderated/`, komentar);
+    }
 
 
     // login i registracija
@@ -37,11 +41,12 @@ class DataService{
         return axios.post(`${API_URL}/objects/`, object);
         console.log("ADOBJTEST2");
     }
-    addTrening(id, treningg){
-        return axios.put(`${API_URL}/objects/${id}`, treningg)
-    }
+    
     getAllObjects(){
         return axios.get(`${API_URL}/objects/`)
+    }
+    searchObject(zahtev){
+        return axios.get(`${API_URL}/objects/filtered/${zahtev}`);
     }
 
 
@@ -59,6 +64,9 @@ class DataService{
     }
     updateTrener(coach){
         return axios.put(`${API_URL}/coaches/`, coach);
+    }
+    mojiTreninzi(temp){
+        return axios.get(`${API_URL}/coaches/${temp}`);
     }
 
 
@@ -89,6 +97,9 @@ class DataService{
     getObject(id){
         return axios.get(`${API_URL}/objects/${id}`);
     }
+    addTrening(id, treningg){
+        return axios.put(`${API_URL}/objects/${id}`, treningg)
+    }
 
     //trening
 
@@ -102,6 +113,9 @@ class DataService{
     updateAdmin(admin){
         return axios.put(`${API_URL}/administrators`, admin);
     }
+    getUserByUsername(username){
+        return axios.get(`${API_URL}/customers/${username}`);
+    }
     
     //customer
     updateCustomer(customer){
@@ -110,6 +124,10 @@ class DataService{
     getCustomer(username){
         
         return axios.get(`${API_URL}/customers/${username}`);
+    }
+    getCustomers(){
+        
+        return axios.get(`${API_URL}/customers/`);
     }
     getAllClanarineKupac(username){
         console.log("uslo u dobijanje clanarina kupca");

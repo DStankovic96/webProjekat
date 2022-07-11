@@ -35,7 +35,7 @@
 </template>
 
 <script>
-// import dataService from '../services/DataService'
+import dataService from '../services/DataService'
 import starRating from 'vue-star-rating'
 export default {
     components:{
@@ -110,14 +110,14 @@ export default {
     },
     created(){
         console.log('TEST: ');
-        // let temp = JSON.parse(localStorage.getItem('token'));
-        // if(temp==null)
-        // {this.isUnregistered=true;}
-        // this.noviKomentar.kupacKomentator = temp.username;
-        // this.noviKomentar.komentarisaniObjekat = this.$route.params.id;
-        // console.log('komentarisani objekat je: ' + this.$route.params.id);
-        // console.log('komentarisani objekat je: ' + this.noviKomentar.komentarisaniObjekat);
-        // this.loadComments();
+        let temp = JSON.parse(localStorage.getItem('token'));
+        if(temp==null)
+        {this.isUnregistered=true;}
+        this.noviKomentar.kupacKomentator = temp.username;
+        this.noviKomentar.komentarisaniObjekat = this.$route.params.id;
+        console.log('komentarisani objekat je: ' + this.$route.params.id);
+        console.log('komentarisani objekat je: ' + this.noviKomentar.komentarisaniObjekat);
+        this.loadComments();
     }
 }
 </script>
