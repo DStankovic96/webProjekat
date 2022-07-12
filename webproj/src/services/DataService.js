@@ -144,6 +144,7 @@ class DataService{
         return axios.put(`${API_URL}/clanarine/${username}`, clanarineKupac);
     }
     getITreningaKupac(username){
+         console.log("USLO U GET ITRENINGA KUPAC");
         return axios.get(`${API_URL}/istorijaTreninga/${username}`);
     }
     posaljiTrening(username, istorijaTreninga)

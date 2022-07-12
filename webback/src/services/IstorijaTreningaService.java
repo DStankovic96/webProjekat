@@ -45,9 +45,11 @@ public class IstorijaTreningaService {
 	@GET
 	@Path("/{username}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Collection<IstorijaTreninga> findAllIstorijeTreningaForCustomer(@PathParam("username") String name){
+	public ArrayList<IstorijaTreninga> findAllIstorijeTreningaForCustomer(@PathParam("username") String name){
 //		System.out.println("IDEMO PRVI TESTIC");
+		System.out.println("USlO BR 2");
 		IstorijaTreningaDAO dao = (IstorijaTreningaDAO)ctx.getAttribute("istorijatreningaDAO");
+		System.out.println("USlO BR 3");
 		return dao.findAllIstorijaTreningaForCustomer(name);
 	}
 	

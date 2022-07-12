@@ -7,43 +7,26 @@
              <div class="container" style="margin-bottom:100px;max-height:300px; overflow:auto;">>
                 <h2>Prikaz aktivne clanarine</h2>
                  
-                <!-- <section style="margin-left: 10px; margin-bottom:10px">
-                    <div> -->
-                    <!-- if we are 3 cards wide start a new row -->
-                      
-                                <!-- <div style="margin-bottom:30px;" class="card h-100"> -->
-                                    <!-- <img class="card-img-top" style="width:100%;height:50%;" :src="tempTrening.slika" alt="card image collar"> -->
-                                    <!-- <div class="card-body">
-                                        <h5 class="card-title">Kupac: {{clanarina.kupac}}</h5>
-                                          <p class="card-text">Datum: {{tempTrening.datum}}</p>
-                                          <p class="card-text">Trener: {{tempTrening.trener}}</p>
-                                          <button v-on:click="Details(tempTrening.trening)" class="btn btn-primary">Detalji</button> -->
-                                        <!-- <b><p class="card-text">Tip treninga: {{tempTrening.tipTreninga}}</p>
-                                        <p class="card-text">Trener zaduzen za ovaj trening: {{tempTrening.trener}}</p></b> -->
-                                        <!-- <button v-on:click="Treniraj(tempTrening, index)" class="btn btn-primary">Dodaj</button> -->
-                                        <!-- <button v-show="isOwner" v-on:click="removeEntity(tempVikendica.id)" class="btn btn-danger">Ukloni</button> -->
-                                    <!-- </div>
-                                </div>
-                            
-                    </div>
-                </section> -->
-                  <!-- <section style="margin-left: 10px; margin-bottom:10px">
-                    <div>
+                
+                  <section style="margin-left: 10px; margin-bottom:10px">
+                    <div v-show="pokazati">
                    
                       
                                 <div style="margin-bottom:30px;" class="card h-100">
                                     
                                     <div class="card-body">
-                                        <h5 class="card-title">Kupac: {{clanarina.kupac}}</h5>
-                                          <p class="card-text">Datum: {{tempTrening.datum}}</p>
-                                          <p class="card-text">Trener: {{tempTrening.trener}}</p>
-                                          <button v-on:click="Details(tempTrening.trening)" class="btn btn-primary">Detalji</button>
+                                      <b>  <h4 class="card-title">Ime clanarine: {{this.clanarina.ime}}</h4>
+                                          <p class="card-text">Datum kupovine: {{this.clanarina.datumPlacanja}}</p>
+                                           <p class="card-text">Datum vazenja: {{this.clanarina.datumVazenja}}</p>
+                                          <p class="card-text">Broj termina: {{this.clanarina.brojTermina}}</p>
+                                           <p class="card-text">Tip clanarine: {{this.clanarina.typeOfClanarina}}</p></b>
+                                         
                                       
                                     </div>
                                 </div>
                             
                     </div>
-                </section> -->
+                </section>
             </div>
            
        
@@ -55,14 +38,14 @@
                     <div>
                     <!-- if we are 3 cards wide start a new row -->
                         <div class="row">
-                            <div  class="col-md-2" v-bind:key="tempTrening.trening" v-for="tempTrening in loadTreninzi">
+                            <div  class="col-md-2" v-bind:key="tempClanarina.id" v-for="tempClanarina in loadClanarine">
                                 <div style="margin-bottom:30px;" class="card h-100">
                                     <!-- <img class="card-img-top" style="width:100%;height:50%;" :src="tempTrening.slika" alt="card image collar"> -->
                                     <div class="card-body">
-                                        <h5 class="card-title">Kupac: {{tempTrening.kupac}}</h5>
-                                          <p class="card-text">Datum: {{tempTrening.datum}}</p>
-                                          <p class="card-text">Trener: {{tempTrening.trener}}</p>
-                                          <button v-on:click="Details(tempTrening.trening)" class="btn btn-primary">Detalji</button>
+                                       <b> <h5 class="card-title">Ime clanarine: {{tempClanarina.ime}}</h5>
+                                          <p class="card-text">Datum kupovine: {{tempClanarina.datumPlacanja}}</p>
+                                          <p class="card-text">Status: {{tempClanarina.statusClanarine}}</p></b>
+                                         
                                         <!-- <b><p class="card-text">Tip treninga: {{tempTrening.tipTreninga}}</p>
                                         <p class="card-text">Trener zaduzen za ovaj trening: {{tempTrening.trener}}</p></b> -->
                                         <!-- <button v-on:click="Treniraj(tempTrening, index)" class="btn btn-primary">Dodaj</button> -->
@@ -96,7 +79,7 @@ export default {
 
          
          
-       
+            pokazati:false,
 
            loadTreninzi:[{
              datum : "dwadwadwa",
@@ -159,9 +142,24 @@ export default {
     methods:{
         
         getMojiClanarine(temp){
-            console.log("dsadasdsa" + temp);
+            
             dataService. getAllClanarineKupac(temp).then(response => {
                 this.loadClanarine = response.data;
+                if(this.loadClanarine.length>0){
+                    this.pokazati=true;
+                }
+                console.log("CLANARINAAA" + JSON.stringify(this.loadClanarine[0]));
+                 for(let i = 0; i<this.loadClanarine.length; i++){
+                 
+                 
+                    if(this.loadClanarine[i].statusClanarine==='aktivna'){
+                          console.log("TESTB");
+                        
+                        this.clanarina=this.loadClanarine[i];
+                        console.log("CLANARINAAA" + JSON.stringify(this.loadClanarine[i]));
+                        console.log("CLANARINA" + JSON.stringify(this.clanarina));
+                    }
+                 }
                 
                 
             }).catch(error => {

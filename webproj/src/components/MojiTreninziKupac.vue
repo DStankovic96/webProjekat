@@ -89,7 +89,7 @@
                     <div>
                     <!-- if we are 3 cards wide start a new row -->
                         <div class="row">
-                            <div  class="col-md-2" v-bind:key="tempTrening.trening" v-for="tempTrening in loadTreninzi">
+                            <div  class="col-md-2" v-bind:key="tempTrening.id" v-for="tempTrening in loadTreninzi">
                                 <div style="margin-bottom:30px;" class="card h-100">
                                     <!-- <img class="card-img-top" style="width:100%;height:50%;" :src="tempTrening.slika" alt="card image collar"> -->
                                     <div class="card-body">
@@ -144,25 +144,25 @@ export default {
                 nazivTreninga: '',
             },
 
-           loadTreninzi:[{
-             datum : "dwadwadwa",
-             trener: "Misko",
-             kupac: "Milan",
-             trening: "individualni trening",
-           },
-           {
-            datum : "bbbbbbb",
-             trener: "Stefan",
-             kupac: "Mihajlo",
-             trening: "grupni trening",
-           },
-           {
-             datum : "fffff",
-             trener: "Radule",
-             kupac: "Pera",
-             trening: "individualni snaga",
-           }
-           ],
+        //    loadTreninzi:[{
+        //      datum : "dwadwadwa",
+        //      trener: "Misko",
+        //      kupac: "Milan",
+        //      trening: "individualni trening",
+        //    },
+        //    {
+        //     datum : "bbbbbbb",
+        //      trener: "Stefan",
+        //      kupac: "Mihajlo",
+        //      trening: "grupni trening",
+        //    },
+        //    {
+        //      datum : "fffff",
+        //      trener: "Radule",
+        //      kupac: "Pera",
+        //      trening: "individualni snaga",
+        //    }
+        //    ],
            
 
             // loadObject:{
@@ -183,7 +183,7 @@ export default {
             //     ocena:0
             // },
             
-            // loadTreninzi : [],
+            loadTreninzi : [],
            
            
             // inputValues : [],
@@ -207,7 +207,7 @@ export default {
         
         getMojiTreninzi(temp){
             console.log("dsadasdsa" + temp);
-            dataService.getTrener(temp).then(response => {
+            dataService.getITreningaKupac(temp).then(response => {
                 this.loadTreninzi = response.data;
                 console.log("Naziv pronadjenih treninga je: " + JSON.stringify(this.loadTreninzi));
                 
@@ -221,16 +221,16 @@ export default {
       
     },
    created(){
-        // if(JSON.parse(localStorage.getItem('token')) == null){
-        //     this.$router.push(`/login`);
-        // }else{
-        //     let parsToken = JSON.parse(localStorage.getItem('token'));
-        //     console.log("TOKEN PROCITAN IZ LOCALSTORAGE-a: " + JSON.stringify(parsToken));
+        if(JSON.parse(localStorage.getItem('token')) == null){
+            this.$router.push(`/login`);
+        }else{
+            let parsToken = JSON.parse(localStorage.getItem('token'));
+            console.log("TOKEN PROCITAN IZ LOCALSTORAGE-a: " + JSON.stringify(parsToken));
           
-        //     let temp = parsToken.username;
-        //      console.log("usERNAME" + temp);
-        //     this.getMojiTreninzi(temp);
-        // }
+            let temp = parsToken.username;
+             console.log("usERNAME" + temp);
+            this.getMojiTreninzi(temp);
+        }
     },
     components: {
         vuejsDatepicker:Datepicker,

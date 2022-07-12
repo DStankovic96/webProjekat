@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
@@ -20,6 +21,7 @@ public class IstorijaTreningaDAO {
 
 		private Map<String, Customer> kupci = new HashMap<>();
 		private String contextPath;
+		Random random = new Random();  
 		
 		public IstorijaTreningaDAO(){
 			
@@ -45,9 +47,11 @@ public class IstorijaTreningaDAO {
 				
 		}
 		
-		public Collection<IstorijaTreninga> findAllIstorijaTreningaForCustomer(String name){
+		public ArrayList<IstorijaTreninga> findAllIstorijaTreningaForCustomer(String name){
 //			System.out.println("IDEMO DRUGI TESTIC");
+			System.out.println("USlO BR 4");
 			if(this.kupci.containsKey(name)) {
+				System.out.println("USlO BR 1");
 				return kupci.get(name).getIstorijaTreninga();
 			}
 			return null;
@@ -71,6 +75,11 @@ public class IstorijaTreningaDAO {
 //			}
 			
 			c.setIstorijaTreninga(istorijaTreninga);
+			for(IstorijaTreninga tempIT : c.getIstorijaTreninga()){
+				if(tempIT.getId()==0){
+					tempIT.setId(random.nextInt(50));
+					}
+				}
 			Gson gson = new Gson();
 			Collection<Customer> tmp = this.kupci.values();
 			String fileInput = gson.toJson(tmp);

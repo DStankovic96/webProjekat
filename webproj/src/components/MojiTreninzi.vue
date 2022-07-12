@@ -89,14 +89,14 @@
                     <div>
                     <!-- if we are 3 cards wide start a new row -->
                         <div class="row">
-                            <div  class="col-md-2" v-bind:key="tempTrening.trening" v-for="tempTrening in loadTreninzi">
+                            <div  class="col-md-2" v-bind:key="tempTrening.naziv" v-for="tempTrening in novaLista">
                                 <div style="margin-bottom:30px;" class="card h-100">
-                                    <!-- <img class="card-img-top" style="width:100%;height:50%;" :src="tempTrening.slika" alt="card image collar"> -->
+                                    <img class="card-img-top" style="width:100%;height:50%;" :src="tempTrening.slika" alt="card image collar">
                                     <div class="card-body">
-                                        <h5 class="card-title">Kupac: {{tempTrening.kupac}}</h5>
-                                          <p class="card-text">Datum: {{tempTrening.datum}}</p>
-                                          <p class="card-text">Trener: {{tempTrening.trener}}</p>
-                                          <button v-on:click="Details(tempTrening.trening)" class="btn btn-primary">Detalji</button>
+                                        <h5 class="card-title">Naziv: {{tempTrening.naziv}}</h5>
+                                          <p class="card-text">Tip: {{tempTrening.tipTreninga}}</p>
+                                          
+                                         
                                         <!-- <b><p class="card-text">Tip treninga: {{tempTrening.tipTreninga}}</p>
                                         <p class="card-text">Trener zaduzen za ovaj trening: {{tempTrening.trener}}</p></b> -->
                                         <!-- <button v-on:click="Treniraj(tempTrening, index)" class="btn btn-primary">Dodaj</button> -->
@@ -144,25 +144,25 @@ export default {
                 nazivTreninga: '',
             },
 
-           loadTreninzi:[{
-             datum : "dwadwadwa",
-             trener: "Misko",
-             kupac: "Milan",
-             trening: "individualni trening",
-           },
-           {
-            datum : "bbbbbbb",
-             trener: "Stefan",
-             kupac: "Mihajlo",
-             trening: "grupni trening",
-           },
-           {
-             datum : "fffff",
-             trener: "Radule",
-             kupac: "Pera",
-             trening: "individualni snaga",
-           }
-           ],
+        //    loadTreninzi:[{
+        //      datum : "dwadwadwa",
+        //      trener: "Misko",
+        //      kupac: "Milan",
+        //      trening: "individualni trening",
+        //    },
+        //    {
+        //     datum : "bbbbbbb",
+        //      trener: "Stefan",
+        //      kupac: "Mihajlo",
+        //      trening: "grupni trening",
+        //    },
+        //    {
+        //      datum : "fffff",
+        //      trener: "Radule",
+        //      kupac: "Pera",
+        //      trening: "individualni snaga",
+        //    }
+        //    ],
            
 
             // loadObject:{
@@ -183,8 +183,20 @@ export default {
             //     ocena:0
             // },
             
-            // loadTreninzi : [],
-           
+            trener:{
+                trening: [],
+                istorijaTreninga: [],
+                id:0,
+                obrisan:false,
+                username:'',
+                password:'',
+                name:'',
+                lastname:'',
+                gender:'',
+                dateOfBirth:'',
+            },
+            loadTreninzi : [],
+            novaLista: [],
            
             // inputValues : [],
             selectedDate1: '',
@@ -209,8 +221,9 @@ export default {
             console.log("dsadasdsa" + temp);
             dataService.getTrener(temp).then(response => {
                 this.loadTreninzi = response.data;
-                console.log("Naziv pronadjenih treninga je: " + JSON.stringify(this.loadTreninzi));
-                
+                console.log("Naziv pronadjenih treninga je: " + JSON.stringify(this.loadTreninzi.trening));
+                this.novaLista=this.loadTreninzi.trening;
+                console.log("Nova lista je: " + JSON.stringify(this.novaLista));
             }).catch(error => {
                 console.log(error.response);
             })
@@ -221,16 +234,16 @@ export default {
       
     },
    created(){
-        // if(JSON.parse(localStorage.getItem('token')) == null){
-        //     this.$router.push(`/login`);
-        // }else{
-        //     let parsToken = JSON.parse(localStorage.getItem('token'));
-        //     console.log("TOKEN PROCITAN IZ LOCALSTORAGE-a: " + JSON.stringify(parsToken));
+        if(JSON.parse(localStorage.getItem('token')) == null){
+            this.$router.push(`/login`);
+        }else{
+            let parsToken = JSON.parse(localStorage.getItem('token'));
+            console.log("TOKEN PROCITAN IZ LOCALSTORAGE-a: " + JSON.stringify(parsToken));
           
-        //     let temp = parsToken.username;
-        //      console.log("usERNAME" + temp);
-        //     this.getMojiTreninzi(temp);
-        // }
+            let temp = parsToken.username;
+             console.log("usERNAME" + temp);
+            this.getMojiTreninzi(temp);
+        }
     },
     components: {
         vuejsDatepicker:Datepicker,

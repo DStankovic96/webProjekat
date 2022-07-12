@@ -2,6 +2,7 @@ package model;
 
 public class IstorijaTreninga {
 	
+	private int id;
 	private String datum;
 	private String trening;
 	private String kupac;
@@ -18,6 +19,14 @@ public class IstorijaTreninga {
 		this.trening = trening;
 		this.kupac = kupac;
 		this.trener = trener;
+	}
+	
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	public String getDatum() {
 		return datum;
